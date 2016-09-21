@@ -5,7 +5,6 @@ public class WR extends Player{
     private int yardsPerGame;
     private int yardsPerReception;
     private int yardsPerTarget;
-    private int gamesPlayed;
     
     public WR(String name, String team, int gamesPlayed, int yards, int tds,  int r, int tar){
         super(name, team, yards, tds, gamesPlayed);
