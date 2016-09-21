@@ -1,0 +1,21 @@
+public class WR extends Player{
+    private int receptions;
+    private int targets;
+    private int receptionsPerGame;
+    private int yardsPerGame;
+    private int yardsPerReception;
+    private int yardsPerTarget;
+    private int gamesPlayed;
+    
+    public WR(String n, String T, int games, int Y, int r, int tar){
+        name=n;
+        team=T;
+        gamesPlayed=games;
+        receptions=r;
+        targets=tar;
+        receptionsPerGame=receptions/gamesPlayed;
+        yardsPerGame=Y/gamesPlayed;
+        yardsPerReception=Y/receptions;
+        yardsPerTarget=Y/targets;
+    }
+}
