@@ -24,6 +24,9 @@ public class QB extends Player{
         super(name, team, yards, tds, gamesPlayed);
         this.completions = completions;
         this.attempts = attempts;
-        
+        yardsPerAttempt=yards/attempts;
+        completionPercentage=completions/attempts;
+        yardsPerGame=yards/gamesPlayed;
+        tdPerGame=tds/gamesPlayed;
     }
 }
