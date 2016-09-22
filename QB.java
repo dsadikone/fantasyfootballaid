@@ -9,6 +9,7 @@ package fantasyfootball;
  *
  * @author CJ
  */
+
 public class QB extends Player{
     
     public int completions;
@@ -19,8 +20,7 @@ public class QB extends Player{
     public int tdPerGame;
     
     
-    public QB(String name, String team, int yards, int tds, int gamesPlayed, int completions,
-            int attempts) {
+    public QB(String name, String team, int yards, int tds, int gamesPlayed, int completions, int attempts) {
         super(name, team, yards, tds, gamesPlayed);
         this.completions = completions;
         this.attempts = attempts;
