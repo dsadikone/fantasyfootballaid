@@ -15,4 +15,9 @@ public class WR extends Player{
         yardsPerReception=yards/receptions;
         yardsPerTarget=yards/targets;
     }
+
+    public String toString() {
+        return name + ", " + team + ", " + yards + ", " + tds + ", " + gamesPlayed + ", " + receptions + ", " + targets + ", " + receptionsPerGame + ", " +
+                yardsPerGame + ", " + yardsPerReception + ", " + yardsPerTarget;
+    }
 }

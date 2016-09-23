@@ -1,10 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package fantasyfootball;
-
 /**
  *
  * @author CJ
@@ -26,7 +19,7 @@ public class QB extends Player{
         this.attempts = attempts;
         yardsPerAttempt=yards/attempts;
         completionPercentage=completions/attempts;
-        yardsPerGame=yards/gamesPlayed;
+        yardsPerGame = yards /gamesPlayed;
         tdPerGame=tds/gamesPlayed;
     }
 }
