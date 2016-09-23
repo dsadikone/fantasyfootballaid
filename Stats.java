@@ -34,7 +34,13 @@ public class Stats {
             str = in.nextLine();
             char c;
             for (int i = 0; i < 7; i++) {
-                String value = str.substring(i, str.indexOf(","));
+                String value = "";
+                if (i < 6) {
+                    value = str.substring(0, str.indexOf(","));
+                }
+                else {
+                    value = str;
+                }
                 switch (i) {
                     case 0:
                         name = value;
