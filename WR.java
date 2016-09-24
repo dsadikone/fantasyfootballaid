@@ -6,14 +6,14 @@ public class WR extends Player{
     private int yardsPerReception;
     private int yardsPerTarget;
     
-    public WR(String name, String team, int gamesPlayed, int yards, int tds,  int r, int tar){
+    public WR(String name, String team, int gamesPlayed, int r, int tar, int yards, int tds){
         super(name, team, yards, tds, gamesPlayed);
-        receptions=r;
-        targets=tar;
-        receptionsPerGame=receptions/gamesPlayed;
-        yardsPerGame=yards/gamesPlayed;
-        yardsPerReception=yards/receptions;
-        yardsPerTarget=yards/targets;
+        receptions = r;
+        targets = tar;
+        receptionsPerGame = receptions / gamesPlayed;
+        yardsPerGame = yards / gamesPlayed;
+        yardsPerReception = yards / receptions;
+        yardsPerTarget = yards / targets;
     }
 
     public String toString() {
