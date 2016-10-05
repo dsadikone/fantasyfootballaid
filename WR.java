@@ -17,7 +17,7 @@ public class WR extends Player{
     }
 
     public String toString() {
-        return name + ", " + team + ", " + yards + ", " + tds + ", " + gamesPlayed + ", " + receptions + ", " + targets + ", " + receptionsPerGame + ", " +
+        return name + ": " + team + ", " + yards + ", " + tds + ", " + gamesPlayed + ", " + receptions + ", " + targets + ", " + receptionsPerGame + ", " +
                 yardsPerGame + ", " + yardsPerReception + ", " + yardsPerTarget;
     }
 }

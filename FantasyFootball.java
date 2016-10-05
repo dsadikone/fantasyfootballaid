@@ -10,5 +10,11 @@ public class FantasyFootball {
         Stats stats = new Stats();
         stats.readStats("WRs.csv");
         stats.printStats();
+        System.out.println();
+        stats.readStats("QBs.csv");
+        stats.printStats();
+        System.out.println();
+        stats.readStats("RBs.csv");
+        stats.printStats();
     }
 }

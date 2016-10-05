@@ -17,9 +17,14 @@ public class QB extends Player{
         super(name, team, yards, tds, gamesPlayed);
         this.completions = completions;
         this.attempts = attempts;
-        yardsPerAttempt=yards/attempts;
-        completionPercentage=completions/attempts;
-        yardsPerGame = yards /gamesPlayed;
-        tdPerGame=tds/gamesPlayed;
+        yardsPerAttempt = yards / attempts;
+        completionPercentage = completions / attempts;
+        yardsPerGame = yards / gamesPlayed;
+        tdPerGame = tds / gamesPlayed;
+    }
+
+    public String toString() {
+        return name + ": " + team + ", " + yards + ", " + tds + ", " + gamesPlayed + ", " + completions + ", " + attempts + ", " +
+                yardsPerAttempt + ", " + completionPercentage + ", " + yardsPerGame + ", " + tdPerGame;
     }
 }
