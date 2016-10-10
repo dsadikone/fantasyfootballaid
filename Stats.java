@@ -158,9 +158,11 @@ public class Stats {
         for (int i = 0; i < wrList.size(); i++) {
             System.out.println(wrList.get(i).toString());
         }
+        System.out.println("\n ********************* \n");
         for (int i = 0; i < qbList.size(); i++) {
             System.out.println(qbList.get(i).toString());
         }
+        System.out.println("\n ********************* \n");
         for (int i = 0; i < rbList.size(); i++) {
             System.out.println(rbList.get(i).toString());
         }
