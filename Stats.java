@@ -2,20 +2,25 @@
  * Created by dsadi on 9/21/2016.
  */
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import java.util.ArrayList;
 import java.io.File;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 
 public class Stats {
-    private ArrayList<WR> wrList;
-    private ArrayList<RB> rbList;
-    private ArrayList<QB> qbList;
+    //private ArrayList<WR> wrList;
+    //private ArrayList<RB> rbList;
+    //private ArrayList<QB> qbList;
+    private ObservableList<WR> wrList;
+    private ObservableList<RB> rbList;
+    private ObservableList<QB> qbList;
 
     public Stats() {
-        wrList = new ArrayList<WR>();
-        rbList = new ArrayList<RB>();
-        qbList = new ArrayList<QB>();
+        wrList = FXCollections.observableArrayList();
+        rbList = FXCollections.observableArrayList();
+        qbList = FXCollections.observableArrayList();
     }
 
     public void readStats(String fileName) throws FileNotFoundException {
@@ -166,5 +171,9 @@ public class Stats {
         for (int i = 0; i < rbList.size(); i++) {
             System.out.println(rbList.get(i).toString());
         }
+    }
+
+    public ObservableList<WR> getWRs() {
+        return wrList;
     }
 }

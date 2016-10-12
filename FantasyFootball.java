@@ -5,21 +5,29 @@
 
 import java.io.*;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class FantasyFootball extends Application {
-    private TableView<Stats> table;
+    private TableView<WR> table;
+    private static Stats stats;
 
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws FileNotFoundException {
         table = new TableView();
+        Stats stats = new Stats();
+        stats.readStats("WRs.csv");
+        stats.readStats("QBs.csv");
+        stats.readStats("RBs.csv");
+
         Scene scene = new Scene(new Group());
         primaryStage.setTitle("Table View Sample");
         primaryStage.setWidth(1100);
@@ -31,35 +39,46 @@ public class FantasyFootball extends Application {
         table.setEditable(false);
 
         // Creating columns
-        TableColumn nameCol = new TableColumn("Name");
+        TableColumn<WR, String> nameCol = new TableColumn("Name");
         nameCol.setMinWidth(100);
-        TableColumn teamCol = new TableColumn("Team");
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        TableColumn<WR, String> teamCol = new TableColumn("Team");
         teamCol.setMinWidth(100);
-        TableColumn yardsCol = new TableColumn("Yards");
+
+        TableColumn<WR, Integer> yardsCol = new TableColumn("Yards");
         yardsCol.setMinWidth(100);
-        TableColumn tdsCol = new TableColumn("Tds");
+
+        TableColumn<WR, Integer>  tdsCol = new TableColumn("Tds");
         tdsCol.setMinWidth(100);
-        TableColumn gamesPlayedCol = new TableColumn("Games Played");
+
+        TableColumn<WR, Integer>  gamesPlayedCol = new TableColumn("Games Played");
         gamesPlayedCol.setMinWidth(100);
-        TableColumn receptionsCol = new TableColumn("Receptions");
+
+        TableColumn<WR, Integer>  receptionsCol = new TableColumn("Receptions");
         receptionsCol.setMinWidth(100);
-        TableColumn targetsCol = new TableColumn("Targets");
+
+        TableColumn<WR, Integer>  targetsCol = new TableColumn("Targets");
         targetsCol.setMinWidth(100);
-        TableColumn receptionsPerGameCol = new TableColumn("Receptions Per Game");
+
+        TableColumn<WR, Integer>  receptionsPerGameCol = new TableColumn("Receptions Per Game");
         receptionsPerGameCol.setMinWidth(100);
-        TableColumn yardsPerGameCol = new TableColumn("Yards Per Game");
+
+        TableColumn<WR, Integer>  yardsPerGameCol = new TableColumn("Yards Per Game");
         yardsPerGameCol.setMinWidth(100);
-        TableColumn yardsPerReceptionCol = new TableColumn("Yards Per Reception");
+
+        TableColumn<WR, Integer>  yardsPerReceptionCol = new TableColumn("Yards Per Reception");
         yardsPerReceptionCol.setMinWidth(100);
-        TableColumn yardsPerTargetCol = new TableColumn("Yards Per Target");
+
+        TableColumn<WR, Integer>  yardsPerTargetCol = new TableColumn("Yards Per Target");
         yardsPerTargetCol.setMinWidth(100);
 
+        table.setItems(stats.getWRs());
 
         // Adding all the columns
         table.getColumns().addAll(nameCol, teamCol, yardsCol, tdsCol, gamesPlayedCol,
                 receptionsCol, targetsCol, receptionsPerGameCol, yardsPerGameCol,
                 yardsPerReceptionCol, yardsPerTargetCol);
-
 
         final VBox vbox = new VBox();
         vbox.setSpacing(5);
@@ -74,11 +93,5 @@ public class FantasyFootball extends Application {
 
     public static void main(String[] args) throws FileNotFoundException {
         launch(args);
-
-        Stats stats = new Stats();
-        stats.readStats("WRs.csv");
-        stats.readStats("QBs.csv");
-        stats.readStats("RBs.csv");
-        stats.printStats();
     }
 }

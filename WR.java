@@ -1,3 +1,5 @@
+import javafx.collections.ObservableList;
+
 public class WR extends Player{
     private int receptions;
     private int targets;
@@ -5,6 +7,7 @@ public class WR extends Player{
     private int yardsPerGame;
     private int yardsPerReception;
     private int yardsPerTarget;
+    private ObservableList<WR> wrList;
     
     public WR(String name, String team, int gamesPlayed, int r, int tar, int yards, int tds){
         super(name, team, yards, tds, gamesPlayed);
@@ -20,4 +23,6 @@ public class WR extends Player{
         return name + ": " + team + ", " + yards + ", " + tds + ", " + gamesPlayed + ", " + receptions + ", " + targets + ", " + receptionsPerGame + ", " +
                 yardsPerGame + ", " + yardsPerReception + ", " + yardsPerTarget;
     }
+
+
 }
