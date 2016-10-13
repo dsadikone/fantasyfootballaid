@@ -10,9 +10,7 @@ import java.util.Scanner;
 import java.io.FileNotFoundException;
 
 public class Stats {
-    //private ArrayList<WR> wrList;
-    //private ArrayList<RB> rbList;
-    //private ArrayList<QB> qbList;
+
     private ObservableList<WR> wrList;
     private ObservableList<RB> rbList;
     private ObservableList<QB> qbList;
@@ -175,5 +173,13 @@ public class Stats {
 
     public ObservableList<WR> getWRs() {
         return wrList;
+    }
+
+    public ObservableList<RB> getRBs() {
+        return rbList;
+    }
+
+    public ObservableList<QB> getQBs() {
+        return qbList;
     }
 }
