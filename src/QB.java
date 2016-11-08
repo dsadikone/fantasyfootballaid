@@ -3,10 +3,10 @@ public class QB extends Player{
 
     private int completions;
     private int attempts;
-    private int yardsPerAttempt;
-    private int completionPercentage;
-    private int yardsPerGame;
-    private int tdPerGame;
+    private double yardsPerAttempt;
+    private double completionPercentage;
+    private double yardsPerGame;
+    private double tdPerGame;
     
     
     public QB(String name, String team, int yards, int tds, int gamesPlayed, int completions, int attempts) {
@@ -14,7 +14,7 @@ public class QB extends Player{
         this.completions = completions;
         this.attempts = attempts;
         yardsPerAttempt = yards / attempts;
-        completionPercentage = completions / attempts;
+        completionPercentage = (double) completions / attempts;
         yardsPerGame = yards / gamesPlayed;
         tdPerGame = tds / gamesPlayed;
     }
@@ -35,35 +35,35 @@ public class QB extends Player{
         this.attempts = attempts;
     }
 
-    public int getYardsPerAttempt() {
+    public double getYardsPerAttempt() {
         return yardsPerAttempt;
     }
 
-    private void setYardsPerAttempt(int yardsPerAttempt) {
+    private void setYardsPerAttempt(double yardsPerAttempt) {
         this.yardsPerAttempt = yardsPerAttempt;
     }
 
-    public int getCompletionPercentage() {
+    public double getCompletionPercentage() {
         return completionPercentage;
     }
 
-    private void setCompletionPercentage(int completionPercentage) {
+    private void setCompletionPercentage(double completionPercentage) {
         this.completionPercentage = completionPercentage;
     }
 
-    public int getYardsPerGame() {
+    public double getYardsPerGame() {
         return yardsPerGame;
     }
 
-    private void setYardsPerGame(int yardsPerGame) {
+    private void setYardsPerGame(double yardsPerGame) {
         this.yardsPerGame = yardsPerGame;
     }
 
-    public int getTdPerGame() {
+    public double getTdPerGame() {
         return tdPerGame;
     }
 
-    private void setTdPerGame(int tdPerGame) {
+    private void setTdPerGame(double tdPerGame) {
         this.tdPerGame = tdPerGame;
     }
 

@@ -3,19 +3,19 @@ public class RB extends Player{
 
     private int carries;
     private int twentyYardRuns;
-    private int carriesPerGame;
-    private int yardsPerCarry;
-    private int yardsPerGame;
-    private int breakoutRunPercentage;
+    private double carriesPerGame;
+    private double yardsPerCarry;
+    private double yardsPerGame;
+    private double breakoutRunPercentage;
     
     public RB(String name, String team, int yards, int tds, int car, int twenty, int gamesPlayed){
         super(name, team, yards, tds, gamesPlayed);
         twentyYardRuns = twenty;
         carries = car;
-        carriesPerGame = carries / gamesPlayed;
-        yardsPerGame = yards / gamesPlayed;
-        yardsPerCarry = yards / carries;
-        breakoutRunPercentage = twentyYardRuns / carries;
+        carriesPerGame = (double) carries / gamesPlayed;
+        yardsPerGame = (double) yards / gamesPlayed;
+        yardsPerCarry = (double) yards / carries;
+        breakoutRunPercentage = (double) twentyYardRuns / carries;
     }
 
     public int getCarries() {
@@ -34,35 +34,35 @@ public class RB extends Player{
         this.twentyYardRuns = twentyYardRuns;
     }
 
-    public int getCarriesPerGame() {
+    public double getCarriesPerGame() {
         return carriesPerGame;
     }
 
-    private void setCarriesPerGame(int carriesPerGame) {
+    private void setCarriesPerGame(double carriesPerGame) {
         this.carriesPerGame = carriesPerGame;
     }
 
-    private int getYardsPerCarry() {
+    private double getYardsPerCarry() {
         return yardsPerCarry;
     }
 
-    private void setYardsPerCarry(int yardsPerCarry) {
+    private void setYardsPerCarry(double yardsPerCarry) {
         this.yardsPerCarry = yardsPerCarry;
     }
 
-    public int getYardsPerGame() {
+    public double getYardsPerGame() {
         return yardsPerGame;
     }
 
-    private void setYardsPerGame(int yardsPerGame) {
+    private void setYardsPerGame(double yardsPerGame) {
         this.yardsPerGame = yardsPerGame;
     }
 
-    public int getBreakoutRunPercentage() {
+    public double getBreakoutRunPercentage() {
         return breakoutRunPercentage;
     }
 
-    private void setBreakoutRunPercentage(int breakoutRunPercentage) {
+    private void setBreakoutRunPercentage(double breakoutRunPercentage) {
         this.breakoutRunPercentage = breakoutRunPercentage;
     }
 
