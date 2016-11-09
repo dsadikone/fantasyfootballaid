@@ -42,7 +42,7 @@ public class RB extends Player{
         this.carriesPerGame = carriesPerGame;
     }
 
-    private double getYardsPerCarry() {
+    public double getYardsPerCarry() {
         return yardsPerCarry;
     }
 
