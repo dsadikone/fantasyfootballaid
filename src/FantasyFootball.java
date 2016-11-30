@@ -3,30 +3,84 @@
  * @author CJ
  */
 
+import java.awt.*;
 import java.io.*;
+import java.net.URL;
+import java.sql.*;
+import java.util.Optional;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class FantasyFootball extends Application {
+
+    private MenuBar menuBar;
+    private Menu menuFile;
+    private Menu menuHelp;
+    private MenuItem exit;
+    private MenuItem about;
     private TableView wrTable;
     private TableView qbTable;
     private TableView rbTable;
     private Button wrButton;
     private Button qbButton;
     private Button rbButton;
+    private Label welcomeText;
+    private Label leftArrow;
+    private Label downArrow;
+    private Label rightArrow;
+    private Stage primaryStage;
+    Connection conn = null;
 
+    @Override
     public void start(Stage primaryStage) throws FileNotFoundException {
+
+
+        try {
+
+            Class.forName("org.sqlite.JDBC");
+            String url = "jdbc:sqlite:C:\\Users\\CJ\\Desktop\\sqllite\\PlayerStats.sqlite";
+            conn = DriverManager.getConnection(url);
+            System.out.println("connected");
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+
+        this.primaryStage = primaryStage;
+        primaryStage.setOnCloseRequest(confirmCloseEventHandler);
+
+        // Setting up a menu
+        menuBar = new MenuBar();
+        menuFile = new Menu("File");
+        menuHelp = new Menu("Help");
+        exit = new MenuItem("Exit");
+        about = new MenuItem("About");
+        menuFile.getItems().add(exit);
+        menuHelp.getItems().add(about);
+        menuBar.getMenus().addAll(menuFile, menuHelp);
 
         wrButton = new Button("WR Stats");
         qbButton = new Button("QB Stats");
@@ -34,11 +88,19 @@ public class FantasyFootball extends Application {
         wrTable = new TableView();
         qbTable = new TableView();
         rbTable = new TableView();
+
+        // Welcome page
+        welcomeText = new Label("Welcome to Football Stats");
+        welcomeText.setFont(new Font("Arial", 60));
+
+        leftArrow = new Label();
+        rightArrow = new Label();
+        downArrow = new Label();
+
         Stats stats = new Stats();
         stats.readStats("WRs.csv");
         stats.readStats("QBs.csv");
         stats.readStats("RBs.csv");
-
 
         primaryStage.setTitle("Table View Sample");
         primaryStage.setWidth(1250);
@@ -56,6 +118,11 @@ public class FantasyFootball extends Application {
         wrTable.setEditable(false);
         qbTable.setEditable(false);
         rbTable.setEditable(false);
+
+
+        final ObservableList<WR> wrData = FXCollections.observableArrayList();
+        final ObservableList<QB> qbData = FXCollections.observableArrayList();
+        final ObservableList<RB> rbData = FXCollections.observableArrayList();
 
         // Creating columns for WR stats
         TableColumn<WR, String> nameCol = new TableColumn("Name");
@@ -207,12 +274,6 @@ public class FantasyFootball extends Application {
                 rbCarries, rbTwentyYardRuns, rbGamesPlayed, carriesPerGame,
                 rbYardsPerGame, rbYardsPerCarry, breakoutRunPercentage);
 
-        int num1 = 412;
-        int num2 = 94;
-        double num3 = (double) num1 /num2;
-        System.out.println(num3);
-
-
         final HBox hbox = new HBox();
         hbox.setSpacing(5);
         hbox.setPadding(new Insets(10, 10, 10, 10));
@@ -242,50 +303,235 @@ public class FantasyFootball extends Application {
         displayRB.setVgap(10);
         displayRB.setPadding(new Insets(25,25,25,25));
 
-        BorderPane root = new BorderPane();
-        root.setTop(hbox);
-        Scene scene = new Scene(root, 1250, 550);
 
-        primaryStage.setScene(scene);
+        BorderPane root = new BorderPane();
+        root.setTop(menuBar);
+        root.setBottom(hbox);
+
+        BorderPane welcomePage = new BorderPane();
+
+
+        Image leftArrowImage = new Image(getClass().getResourceAsStream("left-arrow.png"));
+        Image rightArrowImage = new Image(getClass().getResourceAsStream("right-arrow.png"));
+        Image downArrowImage = new Image(getClass().getResourceAsStream("down-arrow.png"));
+
+
+        // Change images for navigation
+        Image rbImage = new Image(getClass().getResourceAsStream("rb-arrow.png"));
+        Image qbImage = new Image(getClass().getResourceAsStream("qb-arrow.png"));
+        Image wrImage = new Image(getClass().getResourceAsStream("wr-arrow.png"));
+
+
+        leftArrow.setGraphic(new ImageView(leftArrowImage));
+        rightArrow.setGraphic(new ImageView(rightArrowImage));
+        downArrow.setGraphic(new ImageView(downArrowImage));
+
+
+        // Adding elements to the welcome page
+
+        welcomePage.setCenter(welcomeText);
+        welcomePage.setAlignment(welcomeText,Pos.CENTER);
+        welcomePage.setLeft(leftArrow);
+        welcomePage.setAlignment(leftArrow, Pos.CENTER);
+        welcomePage.setAlignment(rightArrow, Pos.CENTER);
+        welcomePage.setRight(rightArrow);
+        welcomePage.setBottom(downArrow);
+        welcomePage.setAlignment(downArrow, Pos.CENTER);
+
+
+
+        Scene scene = new Scene(root, 1250, 550);
+        Scene welcomeScene = new Scene(welcomePage, 1250, 550);
+
+
+        scene.getStylesheets().add(FantasyFootball.class.getResource("style.css")
+                .toExternalForm());
+
+        welcomeScene.getStylesheets().add(FantasyFootball.class.getResource("style.css")
+                .toExternalForm());
+
+        primaryStage.setScene(welcomeScene);
         primaryStage.show();
 
+        leftArrow.setOnMouseClicked((MouseEvent e) -> {
+            primaryStage.setScene(scene);
+            qbButton.fire(); // simulates a button click
+        });
+
+        leftArrow.setOnMouseEntered((MouseEvent e) -> {
+            leftArrow.setGraphic(new ImageView(qbImage));
+        });
+
+        leftArrow.setOnMouseExited((MouseEvent e) -> {
+            leftArrow.setGraphic(new ImageView(leftArrowImage));
+        });
+
+        rightArrow.setOnMouseClicked((MouseEvent e) -> {
+            primaryStage.setScene(scene);
+            rbButton.fire(); // simulates a button click
+        });
+
+        rightArrow.setOnMouseEntered((MouseEvent e) -> {
+           rightArrow.setGraphic(new ImageView(rbImage));
+        });
+
+        rightArrow.setOnMouseExited((MouseEvent e) -> {
+            rightArrow.setGraphic(new ImageView(rightArrowImage));
+        });
+
+        downArrow.setOnMouseClicked((MouseEvent e) -> {
+            primaryStage.setScene(scene);
+            wrButton.fire(); // simulates a button click
+        });
+
+        downArrow.setOnMouseEntered((MouseEvent e) -> {
+            downArrow.setGraphic(new ImageView(wrImage));
+        });
+
+        downArrow.setOnMouseExited((MouseEvent e) -> {
+            downArrow.setGraphic(new ImageView(downArrowImage));
+        });
+
+
+        exit.setOnAction((ActionEvent) -> {
+
+            primaryStage.fireEvent(
+                    new WindowEvent(
+                            primaryStage, WindowEvent.WINDOW_CLOSE_REQUEST
+                    )
+            );
+        });
+
+        about.setOnAction((ActionEvent) -> {
+            try {
+                // Getting default browser on desktop and opening the browser to the url provided.
+                Desktop.getDesktop().browse(new URL("https://www.google.com").toURI());
+
+            } catch (Exception e) {
+                e.printStackTrace(); // printing list of errors
+            }
+        });
 
         wrButton.setOnAction((ActionEvent) -> {
 
-            wrTable.setItems(stats.getWRs());
-            root.setCenter(displayWR);
+
+            try {
+
+                wrTable.getItems().clear();
+
+                String sql = "SELECT * FROM WRs";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery();
+
+                while(rs.next()) {
+
+                    wrData.add(new WR(
+                        rs.getString("name"),
+                        rs.getString("team"),
+                        rs.getInt("gamesPlayed"),
+                        rs.getInt("receptions"),
+                        rs.getInt("targets"),
+                        rs.getInt("yards"),
+                        rs.getInt("tds")
+                    ));
+                    wrTable.setItems(wrData);
+                }
+
+                root.setCenter(displayWR);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         });
 
         qbButton.setOnAction((ActionEvent) -> {
 
-            qbTable.setItems(stats.getQBs());
-            root.setCenter(displayQB);
+            try {
+
+                qbTable.getItems().clear();
+
+                String sql = "SELECT * FROM QBs";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery();
+
+                while(rs.next()) {
+
+                    qbData.add(new QB(
+                            rs.getString("name"),
+                            rs.getString("team"),
+                            rs.getInt("yards"),
+                            rs.getInt("tds"),
+                            rs.getInt("gamesPlayed"),
+                            rs.getInt("completions"),
+                            rs.getInt("attempts")
+                    ));
+                    qbTable.setItems(qbData);
+                }
+
+                root.setCenter(displayQB);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         });
 
         rbButton.setOnAction((ActionEvent) -> {
 
-            rbTable.setItems(stats.getRBs());
-            root.setCenter(displayRB);
+            try {
+
+                rbTable.getItems().clear();
+
+                String sql = "SELECT * FROM RBs";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery();
+
+                while(rs.next()) {
+
+                    rbData.add(new RB(
+                            rs.getString("name"),
+                            rs.getString("team"),
+                            rs.getInt("yards"),
+                            rs.getInt("tds"),
+                            rs.getInt("carries"),
+                            rs.getInt("twenty"),
+                            rs.getInt("gamesPlayed")
+                    ));
+                    rbTable.setItems(rbData);
+                }
+
+                root.setCenter(displayRB);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         });
     }
 
+
+    private EventHandler<WindowEvent> confirmCloseEventHandler = event -> {
+        Alert closeConfirmation = new Alert(
+                Alert.AlertType.CONFIRMATION,
+                "Are you sure you want to exit?"
+        );
+        Button exitButton = (Button) closeConfirmation.getDialogPane().lookupButton(
+                ButtonType.OK
+        );
+        exitButton.setText("Exit");
+        closeConfirmation.setHeaderText("Confirm Exit");
+        closeConfirmation.initModality(Modality.APPLICATION_MODAL);
+        closeConfirmation.initOwner(primaryStage);
+
+
+        Optional<ButtonType> closeResponse = closeConfirmation.showAndWait();
+        if (!ButtonType.OK.equals(closeResponse.get())) {
+            event.consume();
+        }
+    };
+
     public static void main(String[] args) throws FileNotFoundException {
-
-
-        Stats stat = new Stats();
-        stat.readStats("RBs.csv");
-        stat.printStats();
-
-        /*
-        * (IMPORTANT NOTE)
-        * The only column not working is yards per carry.
-        * It seems to be calculating the right number based off
-        * the print stat data.
-        */
-
 
         launch(args);
     }
